@@ -1,0 +1,14 @@
+# root-level env file used only by docker-compose
+.env
+
+# safety net - each app also has its own .gitignore
+node_modules/
+dist/
+.next/
+coverage/
+
+# OS / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
