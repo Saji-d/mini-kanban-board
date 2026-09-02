@@ -187,10 +187,11 @@ export function KanbanBoard({ boardId, board, canEdit }: KanbanBoardProps) {
         onDragEnd={onDragEnd}
       >
         <div className="flex gap-4 overflow-x-auto pb-4">
-          {columns.map((column) => (
+          {columns.map((column, index) => (
             <Column
               key={column.id}
               column={column}
+              railIndex={index}
               canEdit={canEdit}
               onTaskClick={setSelectedTask}
               onAddTask={async (columnId, title) => {
@@ -222,7 +223,7 @@ export function KanbanBoard({ boardId, board, canEdit }: KanbanBoardProps) {
               {isAddingColumn ? (
                 <form
                   onSubmit={handleAddColumn}
-                  className="rounded-xl border border-slate-200 bg-white p-3"
+                  className="rounded-lg border border-border-strong bg-surface p-3"
                 >
                   <input
                     autoFocus
@@ -232,19 +233,19 @@ export function KanbanBoard({ boardId, board, canEdit }: KanbanBoardProps) {
                       if (e.key === 'Escape') setIsAddingColumn(false);
                     }}
                     placeholder="Column name"
-                    className="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-indigo-500 focus:outline-none"
+                    className="w-full rounded border border-border-strong bg-surface-2 px-2 py-1.5 text-sm text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none"
                   />
                   <div className="mt-2 flex gap-1.5">
                     <button
                       type="submit"
-                      className="rounded-md bg-indigo-600 px-2 py-1 text-xs font-medium text-white hover:bg-indigo-500"
+                      className="rounded bg-accent px-2 py-1 text-xs font-medium text-accent-ink hover:bg-accent-hover"
                     >
                       Add column
                     </button>
                     <button
                       type="button"
                       onClick={() => setIsAddingColumn(false)}
-                      className="rounded-md px-2 py-1 text-xs text-slate-500 hover:bg-slate-100"
+                      className="rounded px-2 py-1 text-xs text-ink-muted hover:bg-surface-2"
                     >
                       Cancel
                     </button>
@@ -254,7 +255,7 @@ export function KanbanBoard({ boardId, board, canEdit }: KanbanBoardProps) {
                 <button
                   type="button"
                   onClick={() => setIsAddingColumn(true)}
-                  className="w-full rounded-xl border border-dashed border-slate-300 py-3 text-sm text-slate-500 hover:border-slate-400 hover:bg-white"
+                  className="w-full rounded-lg border border-dashed border-border-strong py-3 text-sm text-ink-faint transition-colors hover:border-ink-faint hover:text-ink-muted"
                 >
                   + Add column
                 </button>
@@ -263,13 +264,13 @@ export function KanbanBoard({ boardId, board, canEdit }: KanbanBoardProps) {
           )}
 
           {columns.length === 0 && !canEdit && (
-            <p className="py-10 text-sm text-slate-500">This board has no columns yet.</p>
+            <p className="py-10 font-mono text-sm text-ink-faint">This board has no columns yet.</p>
           )}
         </div>
 
         <DragOverlay>
           {activeTask && (
-            <div className="w-72 rounded-lg border border-indigo-300 bg-white p-3 shadow-lg">
+            <div className="w-72 rotate-1 rounded-md border border-accent/50 bg-surface-3 py-2.5 pl-3.5 pr-3 shadow-2xl shadow-black/50">
               <TaskCardContent task={activeTask} />
             </div>
           )}

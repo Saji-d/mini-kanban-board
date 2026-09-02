@@ -21,30 +21,32 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
+    <div className="min-h-screen bg-bg">
+      <header className="border-b border-border bg-surface">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <Link href="/boards" className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold text-white">
+          <Link href="/boards" className="flex items-center gap-2.5">
+            <span className="flex h-7 w-7 items-center justify-center rounded bg-accent font-display text-sm font-bold text-accent-ink">
               K
             </span>
-            <span className="text-sm font-semibold text-slate-900">Mini Kanban</span>
+            <span className="font-display text-sm font-semibold tracking-tight text-ink">
+              Mini Kanban
+            </span>
           </Link>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-slate-600">{user.name}</span>
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs text-ink-muted">{user.name}</span>
             <button
               onClick={() => {
                 logout();
                 router.replace('/login');
               }}
-              className="rounded-lg px-3 py-1.5 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+              className="rounded px-3 py-1.5 text-xs font-medium text-ink-faint transition-colors hover:bg-surface-2 hover:text-ink"
             >
               Sign out
             </button>
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
     </div>
   );
 }

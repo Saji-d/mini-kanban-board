@@ -3,15 +3,19 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
+import { relativeTime } from '@/lib/format-time';
 import type { Task } from '@/types/api';
 
 export function TaskCardContent({ task }: { task: Task }) {
   return (
     <>
-      <p className="text-sm font-medium text-slate-800">{task.title}</p>
+      <p className="text-sm font-medium leading-snug text-ink">{task.title}</p>
       {task.description && (
-        <p className="mt-1 line-clamp-2 text-xs text-slate-500">{task.description}</p>
+        <p className="mt-1 line-clamp-2 text-xs text-ink-muted">{task.description}</p>
       )}
+      <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-ink-faint">
+        {task.id.slice(-6)} · {relativeTime(task.createdAt)}
+      </p>
     </>
   );
 }
@@ -44,10 +48,12 @@ export function TaskCard({ task, canEdit, onClick }: TaskCardProps) {
       role="button"
       tabIndex={0}
       className={clsx(
-        'rounded-lg border border-slate-200 bg-white p-3 shadow-sm outline-none transition-shadow hover:border-indigo-300 hover:shadow focus-visible:ring-2 focus-visible:ring-indigo-400',
+        'group relative overflow-hidden rounded-md border border-border bg-surface-2 py-2.5 pl-3.5 pr-3 outline-none transition-all hover:border-border-strong hover:bg-surface-3',
+        'focus-visible:ring-2 focus-visible:ring-accent',
         canEdit ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer',
       )}
     >
+      <span className="absolute inset-y-0 left-0 w-[3px] bg-border-strong transition-colors group-hover:bg-accent" />
       <TaskCardContent task={task} />
     </div>
   );

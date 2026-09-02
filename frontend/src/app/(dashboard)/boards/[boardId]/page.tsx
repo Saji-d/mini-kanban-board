@@ -48,7 +48,7 @@ export default function BoardDetailPage({ params }: { params: { boardId: string 
 
   if (isError || !board) {
     return (
-      <p className="rounded-lg bg-rose-50 p-4 text-sm text-rose-700">
+      <p className="rounded-md border border-danger/30 bg-surface p-4 text-sm text-danger">
         This board doesn&apos;t exist, or you don&apos;t have access to it.
       </p>
     );
@@ -56,13 +56,13 @@ export default function BoardDetailPage({ params }: { params: { boardId: string 
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
+      <div className="mb-8 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-semibold text-slate-900">{board.title}</h1>
+          <div className="flex items-center gap-2.5">
+            <h1 className="font-display text-xl font-semibold tracking-tight text-ink">{board.title}</h1>
             <RoleBadge role={role} />
           </div>
-          {board.description && <p className="mt-1 text-sm text-slate-500">{board.description}</p>}
+          {board.description && <p className="mt-1 text-sm text-ink-muted">{board.description}</p>}
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" size="sm" onClick={() => setIsShareOpen(true)}>

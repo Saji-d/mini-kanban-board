@@ -3,17 +3,52 @@
 @tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  /* RGB channel triples (not hex) so Tailwind's color/opacity modifiers
+     (e.g. bg-danger/90) can compose them via rgb(var(--x) / <alpha>). */
+  --bg: 20 22 27;
+  --surface: 27 30 38;
+  --surface-2: 35 39 50;
+  --surface-3: 42 47 60;
+  --border: 44 49 64;
+  --border-strong: 58 65 85;
+
+  --ink: 237 239 244;
+  --ink-muted: 154 162 180;
+  --ink-faint: 101 109 128;
+
+  --accent: 255 169 77;
+  --accent-ink: 26 18 4;
+  --accent-hover: 255 189 112;
+  --teal: 79 216 196;
+  --danger: 255 107 107;
+  --success: 74 222 128;
+
+  --rail-1: 255 169 77;
+  --rail-2: 79 216 196;
+  --rail-3: 157 140 255;
+  --rail-4: 255 143 171;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family:
-    var(--font-geist-sans),
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    sans-serif;
+  color: rgb(var(--ink));
+  background: rgb(var(--bg));
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: rgb(var(--accent));
+  color: rgb(var(--accent-ink));
+}
+
+* {
+  scrollbar-color: rgb(var(--border-strong)) transparent;
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  }
+  .font-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
 }

@@ -20,7 +20,10 @@ async function bootstrap(): Promise<void> {
   await app.init();
 }
 
-export default async function handler(req: Request, res: Response): Promise<void> {
+export default async function handler(
+  req: Request,
+  res: Response,
+): Promise<void> {
   if (!bootstrapped) {
     bootstrapped = bootstrap();
   }

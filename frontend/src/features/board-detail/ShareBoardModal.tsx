@@ -66,7 +66,7 @@ export function ShareBoardModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Share board">
       {isOwner && (
-        <form onSubmit={onSubmit} className="mb-4 space-y-2 border-b border-slate-100 pb-4">
+        <form onSubmit={onSubmit} className="mb-4 space-y-2 border-b border-border pb-4">
           <Label htmlFor="member-email">Invite by email</Label>
           <div className="flex gap-2">
             <Input
@@ -80,7 +80,7 @@ export function ShareBoardModal({
             <select
               value={role}
               onChange={(e) => setRole(e.target.value as BoardRole)}
-              className="rounded-lg border border-slate-300 px-2 text-sm focus:border-indigo-500 focus:outline-none"
+              className="rounded border border-border-strong bg-surface-2 px-2 text-sm text-ink focus:border-accent focus:outline-none"
             >
               <option value="EDITOR">Editor</option>
               <option value="VIEWER">Viewer</option>
@@ -103,18 +103,18 @@ export function ShareBoardModal({
         {members?.map((member) => (
           <li key={member.id} className="flex items-center justify-between gap-2 text-sm">
             <div>
-              <p className="font-medium text-slate-800">
+              <p className="font-medium text-ink">
                 {member.user.name}
-                {member.userId === user?.id && <span className="text-slate-400"> (you)</span>}
+                {member.userId === user?.id && <span className="text-ink-faint"> (you)</span>}
               </p>
-              <p className="text-xs text-slate-500">{member.user.email}</p>
+              <p className="font-mono text-xs text-ink-faint">{member.user.email}</p>
             </div>
             <div className="flex items-center gap-2">
               {isOwner ? (
                 <select
                   value={member.role}
                   onChange={(e) => handleRoleChange(member.id, e.target.value as BoardRole)}
-                  className="rounded-md border border-slate-300 px-1.5 py-0.5 text-xs focus:border-indigo-500 focus:outline-none"
+                  className="rounded border border-border-strong bg-surface-2 px-1.5 py-0.5 text-xs text-ink focus:border-accent focus:outline-none"
                 >
                   <option value="OWNER">Owner</option>
                   <option value="EDITOR">Editor</option>
@@ -127,7 +127,7 @@ export function ShareBoardModal({
                 <button
                   onClick={() => handleRemove(member.id)}
                   aria-label={`Remove ${member.user.name}`}
-                  className="rounded p-1 text-slate-400 hover:bg-slate-100 hover:text-rose-600"
+                  className="rounded p-1 text-ink-faint hover:bg-surface-2 hover:text-danger"
                 >
                   ✕
                 </button>

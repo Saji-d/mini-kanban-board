@@ -32,7 +32,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <h2 className="mb-4 text-sm font-medium text-slate-500">Sign in to your account</h2>
+      <h2 className="mb-4 font-display text-sm font-medium text-ink-muted">Sign in to your account</h2>
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
           <Label htmlFor="email">Email</Label>
@@ -61,9 +61,9 @@ export default function LoginPage() {
           Sign in
         </Button>
       </form>
-      <p className="mt-4 text-center text-xs text-slate-500">
+      <p className="mt-4 text-center text-xs text-ink-muted">
         No account?{' '}
-        <Link href="/register" className="font-medium text-indigo-600 hover:underline">
+        <Link href="/register" className="font-medium text-accent hover:text-accent-hover hover:underline">
           Create one
         </Link>
       </p>
