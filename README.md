@@ -1,11 +1,65 @@
 # Mini Kanban Board
 
+![Next.js](https://img.shields.io/badge/Next.js-14-000000?logo=next.js&logoColor=white)
+![NestJS](https://img.shields.io/badge/NestJS-10-E0234E?logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-6-2D3748?logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-40%20passing-2ea44f)
+
 A small Kanban board application: users register, create boards, share them with other registered users under an explicit **OWNER / EDITOR / VIEWER** role model, and organize work across columns and tasks with drag-and-drop reordering.
 
 Built for a technical assessment. The two things it leans hardest on are:
 
 1. **Order consistency** — the task-move API stays correct and cheap under concurrent, repeated reordering (see [Ordering strategy](#ordering-strategy)).
 2. **Authorization** — every board/column/task mutation is checked against board membership and role, with defenses against cross-board id tampering (see [Authorization model](#authorization-model)).
+
+## Contents
+
+- [Live demo](#live-demo)
+- [Tech stack](#tech-stack)
+- [Project structure](#project-structure)
+- [Setup instructions](#setup-instructions)
+  - [Quick start (Docker)](#quick-start-docker)
+  - [Manual setup (without Docker)](#manual-setup-without-docker)
+  - [Environment variables](#environment-variables)
+- [Architecture](#architecture)
+  - [Data model](#data-model)
+  - [Ordering strategy](#ordering-strategy)
+  - [Authorization model](#authorization-model)
+- [Testing](#testing)
+- [API overview](#api-overview)
+- [Deployment](#deployment)
+- [Known limitations](#known-limitations--deliberate-scope-decisions)
+
+---
+
+## Live demo
+
+The app is deployed and ready to click through — no setup required.
+
+| | |
+|---|---|
+| **Frontend** | https://mini-kanban-board-frontend.vercel.app |
+| **Backend API** | https://mini-kanban-board-backend.vercel.app (`/health`) |
+| **API docs** | https://mini-kanban-board-backend.vercel.app/docs (Swagger) |
+
+### Demo accounts
+
+You're welcome to just **register your own account** from the live app and try everything yourself — creating a board automatically makes you its `OWNER`, and you can invite a second account of your own to see the `EDITOR`/`VIEWER` side.
+
+For a faster look, three demo accounts below already share one pre-populated **"Demo Board"** (three columns, six tasks) at every role, so you can see the permission matrix immediately without setting anything up:
+
+| Role | Email | Password |
+|---|---|---|
+| `OWNER` | `demo.owner@mini-kanban.app` | `MiniKanbanDemo1!` |
+| `EDITOR` | `demo.editor@mini-kanban.app` | `MiniKanbanDemo1!` |
+| `VIEWER` | `demo.viewer@mini-kanban.app` | `MiniKanbanDemo1!` |
+
+Log in as each one to compare: the `OWNER` can manage members and delete the board, the `EDITOR` can create/edit/delete/move tasks and columns but not touch membership, and the `VIEWER` can only read — every mutation control is hidden in the UI and independently rejected by the API if attempted directly.
+
+---
 
 ## Tech stack
 
@@ -28,7 +82,11 @@ docker-compose.yml   spins up Postgres + both apps
 
 ---
 
-## Quick start (Docker)
+## Setup instructions
+
+Step-by-step local setup, two ways: the fast path with Docker, or a manual path if you'd rather run each app yourself. Sample environment variables for every service are listed at the end of this section.
+
+### Quick start (Docker)
 
 This is the fastest way to run the whole stack.
 
@@ -47,11 +105,11 @@ This is the fastest way to run the whole stack.
 
 The backend container runs `prisma migrate deploy` automatically on startup, so the database schema is created for you — no manual migration step needed.
 
-## Manual setup (without Docker)
+### Manual setup (without Docker)
 
 You'll need Node.js 20+ and a PostgreSQL 14+ instance running locally.
 
-### 1. Database
+**1. Database**
 
 Create a database and user (adjust to taste):
 
@@ -60,7 +118,7 @@ CREATE ROLE kanban WITH LOGIN PASSWORD 'kanban_dev_password';
 CREATE DATABASE kanban OWNER kanban;
 ```
 
-### 2. Backend
+**2. Backend**
 
 ```
 cd backend
@@ -72,7 +130,7 @@ npm run start:dev
 
 The API listens on `http://localhost:3001` (`PORT` in `.env`).
 
-### 3. Frontend
+**3. Frontend**
 
 ```
 cd frontend
@@ -83,11 +141,9 @@ npm run dev
 
 The app listens on `http://localhost:3000` and expects `NEXT_PUBLIC_API_URL` (in `.env.local`) to point at the backend above.
 
----
+### Environment variables
 
-## Environment variables
-
-### `backend/.env`
+**`backend/.env`**
 
 | Variable | Description |
 |---|---|
@@ -98,13 +154,13 @@ The app listens on `http://localhost:3000` and expects `NEXT_PUBLIC_API_URL` (in
 | `PORT` | Port the API listens on (default `3001`). |
 | `CORS_ORIGIN` | Comma-separated list of origins allowed to call the API. |
 
-### `frontend/.env.local`
+**`frontend/.env.local`**
 
 | Variable | Description |
 |---|---|
 | `NEXT_PUBLIC_API_URL` | Base URL of the backend API, **reachable from the browser** (not a Docker-internal hostname — API calls happen client-side). |
 
-### Root `.env` (Docker Compose only)
+**Root `.env` (Docker Compose only)**
 
 See `.env.example` at the repository root — `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB`, plus the backend/frontend variables above, all wired together automatically by `docker-compose.yml`.
 
