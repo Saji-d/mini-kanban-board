@@ -204,6 +204,11 @@ PATCH  /boards/:boardId/tasks/:taskId/move
 
 ## Deployment
 
+**Live:**
+- Frontend: https://mini-kanban-board-frontend.vercel.app
+- Backend API: https://mini-kanban-board-backend.vercel.app (health check at `/health`, Swagger at `/docs`)
+- Database: Neon Postgres
+
 Everything above works fully containerized (`docker compose up --build`) and needs no code changes to deploy — only environment variables.
 
 - **Database**: any managed Postgres works (Neon, Supabase, RDS, Render Postgres, ...). If it's a pooled connection (e.g. Neon's pgbouncer endpoint), set `DATABASE_URL` to the pooled connection string and `DIRECT_URL` to the unpooled one — Prisma uses `DIRECT_URL` only for running migrations.
