@@ -1,280 +1,267 @@
-# Mini Kanban Board
+<div align="center">
+  <img src="assets/banner.svg" alt="Mini Kanban Board banner" width="100%">
 
-![Next.js](https://img.shields.io/badge/Next.js-14-000000?logo=next.js&logoColor=white)
-![NestJS](https://img.shields.io/badge/NestJS-10-E0234E?logo=nestjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-6-2D3748?logo=prisma&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-40%20passing-2ea44f)
+  <p><code>Kanban boards with OWNER, EDITOR and VIEWER roles and drag-and-drop ordering that stays correct under concurrent moves</code></p>
 
-A small Kanban board application: users register, create boards, share them with other registered users under an explicit **OWNER / EDITOR / VIEWER** role model, and organize work across columns and tasks with drag-and-drop reordering.
+  <p>
+    <a href="https://mini-kanban-board-frontend.vercel.app"><img src="https://img.shields.io/badge/LIVE_APP-mini--kanban--board--frontend.vercel.app-34d399?style=for-the-badge&logo=vercel&logoColor=0B0E1A&labelColor=0B0E1A" alt="Live app"></a>
+    <a href="https://mini-kanban-board-backend.vercel.app/docs"><img src="https://img.shields.io/badge/API_DOCS-SWAGGER-8b7cf6?style=for-the-badge&logo=swagger&logoColor=8b7cf6&labelColor=0B0E1A" alt="Swagger API docs"></a>
+    <a href="https://github.com/Saji-d/mini-kanban-board"><img src="https://img.shields.io/badge/SOURCE-Saji--d%2Fmini--kanban--board-8b7cf6?style=for-the-badge&logo=github&logoColor=8b7cf6&labelColor=0B0E1A" alt="Source code"></a>
+    <img src="https://img.shields.io/badge/TESTS-40_PASSING-34d399?style=for-the-badge&labelColor=0B0E1A" alt="40 tests">
+  </p>
 
-Built for a technical assessment. The two things it leans hardest on are:
+  <p>
+    <img src="https://img.shields.io/badge/Next.js_14-0B0E1A?style=flat-square&logo=nextdotjs&logoColor=8b7cf6" alt="Next.js">
+    <img src="https://img.shields.io/badge/NestJS-0B0E1A?style=flat-square&logo=nestjs&logoColor=8b7cf6" alt="NestJS">
+    <img src="https://img.shields.io/badge/TypeScript-0B0E1A?style=flat-square&logo=typescript&logoColor=8b7cf6" alt="TypeScript">
+    <img src="https://img.shields.io/badge/Prisma-0B0E1A?style=flat-square&logo=prisma&logoColor=8b7cf6" alt="Prisma">
+    <img src="https://img.shields.io/badge/PostgreSQL-0B0E1A?style=flat-square&logo=postgresql&logoColor=8b7cf6" alt="PostgreSQL">
+    <img src="https://img.shields.io/badge/Tailwind-0B0E1A?style=flat-square&logo=tailwindcss&logoColor=8b7cf6" alt="Tailwind">
+    <img src="https://img.shields.io/badge/Docker-0B0E1A?style=flat-square&logo=docker&logoColor=8b7cf6" alt="Docker">
+  </p>
 
-1. **Order consistency** — the task-move API stays correct and cheap under concurrent, repeated reordering (see [Ordering strategy](#ordering-strategy)).
-2. **Authorization** — every board/column/task mutation is checked against board membership and role, with defenses against cross-board id tampering (see [Authorization model](#authorization-model)).
+  <p>
+    <a href="#-overview">Overview</a> · <a href="#-try-it-live">Try it live</a> · <a href="#-highlights">Highlights</a> · <a href="#-preview">Preview</a> · <a href="#-architecture">Architecture</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-getting-started">Getting Started</a> · <a href="#-roadmap">Roadmap</a>
+  </p>
+</div>
 
-## Contents
+<img src="assets/divider.svg" alt="" width="100%">
 
-- [Live demo](#live-demo)
-- [Tech stack](#tech-stack)
-- [Project structure](#project-structure)
-- [Setup instructions](#setup-instructions)
-  - [Quick start (Docker)](#quick-start-docker)
-  - [Manual setup (without Docker)](#manual-setup-without-docker)
-  - [Environment variables](#environment-variables)
-- [Architecture](#architecture)
-  - [Data model](#data-model)
-  - [Ordering strategy](#ordering-strategy)
-  - [Authorization model](#authorization-model)
-- [Testing](#testing)
-- [API overview](#api-overview)
-- [Deployment](#deployment)
-- [Known limitations](#known-limitations--deliberate-scope-decisions)
+## ◈ Overview
 
----
+Mini Kanban Board is a small Kanban app. Users register, create boards, share them with other registered users under an explicit **OWNER, EDITOR and VIEWER** role model and organise work across columns and tasks with drag-and-drop.
 
-## Live demo
+It was built for a technical assessment and leans hardest on two things:
 
-The app is deployed and ready to click through — no setup required.
+1. **Order consistency:** the task-move API stays correct and cheap under concurrent and repeated reordering.
+2. **Authorization:** every board, column and task mutation is checked against board membership and role, with defences against cross-board id tampering.
 
-| | |
-|---|---|
-| **Frontend** | https://mini-kanban-board-frontend.vercel.app |
-| **Backend API** | https://mini-kanban-board-backend.vercel.app (`/health`) |
-| **API docs** | https://mini-kanban-board-backend.vercel.app/docs (Swagger) |
+<img src="assets/divider.svg" alt="" width="100%">
 
-### Demo accounts
+## ◈ Try it live
 
-You're welcome to just **register your own account** from the live app and try everything yourself — creating a board automatically makes you its `OWNER`, and you can invite a second account of your own to see the `EDITOR`/`VIEWER` side.
+<div align="center">
+  <a href="https://mini-kanban-board-frontend.vercel.app/login"><img src="https://img.shields.io/badge/OPEN_THE_LOGIN_PAGE-PICK_A_ROLE_BELOW-34d399?style=for-the-badge&logo=vercel&logoColor=0B0E1A&labelColor=0B0E1A" alt="Open the login page"></a>
+</div>
 
-For a faster look, three demo accounts below already share one pre-populated **"Demo Board"** (three columns, six tasks) at every role, so you can see the permission matrix immediately without setting anything up:
+<br>
 
-| Role | Email | Password |
-|---|---|---|
-| `OWNER` | `demo.owner@mini-kanban.app` | `MiniKanbanDemo1!` |
-| `EDITOR` | `demo.editor@mini-kanban.app` | `MiniKanbanDemo1!` |
-| `VIEWER` | `demo.viewer@mini-kanban.app` | `MiniKanbanDemo1!` |
+Three demo accounts share one pre-populated **Demo Board** at every role, so you can compare the permission matrix right away. You can also register your own account, which makes you the OWNER of any board you create.
 
-Log in as each one to compare: the `OWNER` can manage members and delete the board, the `EDITOR` can create/edit/delete/move tasks and columns but not touch membership, and the `VIEWER` can only read — every mutation control is hidden in the UI and independently rejected by the API if attempted directly.
+| Role | Email | Password | What to try |
+| :--- | :--- | :--- | :--- |
+| **OWNER** | `demo.owner@mini-kanban.app` | `MiniKanbanDemo1!` | Manage members, edit columns and tasks, delete the board |
+| **EDITOR** | `demo.editor@mini-kanban.app` | `MiniKanbanDemo1!` | Create, edit and drag tasks. No membership controls |
+| **VIEWER** | `demo.viewer@mini-kanban.app` | `MiniKanbanDemo1!` | Read only. Mutation controls are hidden and the API rejects them |
 
----
+> These are shared demo accounts, so data may be reset. Please do not store anything personal.
 
-## Tech stack
+<img src="assets/divider.svg" alt="" width="100%">
 
-| Layer | Choice |
-|---|---|
-| Frontend | Next.js 14 (App Router), React, TypeScript, Tailwind CSS |
-| Backend | NestJS, TypeScript |
-| Database | PostgreSQL + Prisma |
-| Drag-and-drop | `@dnd-kit` (accessible, multi-container sortable) |
-| Server state | TanStack React Query |
-| Containerization | Docker + Docker Compose |
+## ◈ Highlights
 
-## Project structure
+<table>
+<tr>
+<td width="33%" valign="top"><b>Midpoint ordering</b><br>Dropping a task writes one row: the new position is the midpoint of its neighbours. No full re-sequencing.</td>
+<td width="33%" valign="top"><b>Row-locked moves</b><br>Moves lock the source and destination columns with <code>SELECT ... FOR UPDATE</code> in sorted order to avoid deadlocks.</td>
+<td width="33%" valign="top"><b>Auto renormalisation</b><br>If two positions get closer than <code>1e-7</code> the column is rewritten with even spacing inside the same transaction.</td>
+</tr>
+<tr>
+<td valign="top"><b>Layered authorization</b><br>Global JWT guard, a board membership guard with role checks and service-level ownership checks.</td>
+<td valign="top"><b>Cross-board safety</b><br>Task and column ids are verified against the board in the URL, which blocks id tampering across boards.</td>
+<td valign="top"><b>Last owner protected</b><br>A board always keeps at least one OWNER. Demoting or removing the last one is rejected.</td>
+</tr>
+<tr>
+<td valign="top"><b>Accessible drag and drop</b><br>Multi-container sortable lists with <code>@dnd-kit</code> and React Query for server state.</td>
+<td valign="top"><b>Swagger docs</b><br>Interactive API docs served at <code>/docs</code>.</td>
+<td valign="top"><b>40 tests</b><br>14 unit tests for the ordering utility plus 26 end-to-end tests for auth, the authorization matrix and ordering.</td>
+</tr>
+</table>
 
-```
-backend/    NestJS API (auth, boards, columns, tasks, ordering engine)
-frontend/   Next.js app (auth pages, boards list, Kanban board view)
-docker-compose.yml   spins up Postgres + both apps
-```
+<img src="assets/divider.svg" alt="" width="100%">
 
----
+## ◈ Preview
 
-## Setup instructions
+<div align="center">
+  <img src="docs/preview.webp" alt="Mini Kanban Board preview" width="90%">
+</div>
 
-Step-by-step local setup, two ways: the fast path with Docker, or a manual path if you'd rather run each app yourself. Sample environment variables for every service are listed at the end of this section.
+<img src="assets/divider.svg" alt="" width="100%">
 
-### Quick start (Docker)
+## ◈ Architecture
 
-This is the fastest way to run the whole stack.
-
-1. Copy the root env file and adjust if you like (defaults work out of the box):
-   ```
-   cp .env.example .env
-   ```
-2. From the repository root:
-   ```
-   docker compose up --build
-   ```
-3. Once it's up:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:3001
-   - Swagger API docs: http://localhost:3001/docs
-
-The backend container runs `prisma migrate deploy` automatically on startup, so the database schema is created for you — no manual migration step needed.
-
-### Manual setup (without Docker)
-
-You'll need Node.js 20+ and a PostgreSQL 14+ instance running locally.
-
-**1. Database**
-
-Create a database and user (adjust to taste):
-
-```sql
-CREATE ROLE kanban WITH LOGIN PASSWORD 'kanban_dev_password';
-CREATE DATABASE kanban OWNER kanban;
+```mermaid
+flowchart LR
+  UI["Next.js 14<br>dnd-kit and React Query"] -->|"Bearer JWT"| G1
+  subgraph API["NestJS API"]
+    G1["JwtAuthGuard"] --> G2["BoardMembershipGuard<br>RequireRole"]
+    G2 --> SV["Boards, Columns, Tasks services<br>ownership checks"]
+    SV --> OR["Ordering engine<br>position.util"]
+    SV --> LK["ColumnLockRepository<br>FOR UPDATE"]
+  end
+  SV --> PR["Prisma"]
+  OR --> PR
+  LK --> PR
+  PR --> DB[("PostgreSQL")]
 ```
 
-**2. Backend**
+**Data model:** `User` to `Board` to `Column` to `Task`, plus a `BoardMember` join table with a `role`. The owner is also a `BoardMember` row with role `OWNER`, so every authorization check is one uniform membership lookup.
 
-```
-cd backend
-cp .env.example .env      # edit DATABASE_URL/DIRECT_URL if your DB differs
-npm install
-npx prisma migrate deploy
-npm run start:dev
-```
+**Moving a task** (`PATCH /boards/:boardId/tasks/:taskId/move` with `destinationColumnId` and `targetIndex`):
 
-The API listens on `http://localhost:3001` (`PORT` in `.env`).
-
-**3. Frontend**
-
-```
-cd frontend
-cp .env.example .env.local
-npm install
-npm run dev
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant S as TasksService
+  participant DB as PostgreSQL
+  C->>S: move(taskId, destinationColumnId, targetIndex)
+  S->>DB: begin transaction
+  S->>DB: lock source and destination columns (sorted ids)
+  S->>S: derive source from the task, check destination belongs to board
+  S->>S: clamp targetIndex, renormalise if gap below 1e-7
+  S->>DB: write one position (midpoint of neighbours)
+  S->>DB: commit
+  S-->>C: updated task
 ```
 
-The app listens on `http://localhost:3000` and expects `NEXT_PUBLIC_API_URL` (in `.env.local`) to point at the backend above.
-
-### Environment variables
-
-**`backend/.env`**
-
-| Variable | Description |
-|---|---|
-| `DATABASE_URL` | Postgres connection string used for normal queries. |
-| `DIRECT_URL` | Non-pooled connection string used only for running migrations. Against a plain Postgres instance (local/Docker) this can be the same value as `DATABASE_URL`; against a pooled provider (e.g. Neon, PgBouncer) it must be the direct/unpooled connection. |
-| `JWT_SECRET` | Secret used to sign access tokens. Use a long random value outside local dev. |
-| `JWT_EXPIRES_IN` | Access token lifetime (default `7d`). |
-| `PORT` | Port the API listens on (default `3001`). |
-| `CORS_ORIGIN` | Comma-separated list of origins allowed to call the API. |
-
-**`frontend/.env.local`**
-
-| Variable | Description |
-|---|---|
-| `NEXT_PUBLIC_API_URL` | Base URL of the backend API, **reachable from the browser** (not a Docker-internal hostname — API calls happen client-side). |
-
-**Root `.env` (Docker Compose only)**
-
-See `.env.example` at the repository root — `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB`, plus the backend/frontend variables above, all wired together automatically by `docker-compose.yml`.
-
----
-
-## Architecture
-
-### Data model
-
-`User` → `Board` (has an `ownerId`) → `Column` → `Task`, plus a `BoardMember` join table (`boardId`, `userId`, `role`). The board owner is *also* a `BoardMember` row with role `OWNER`, created transactionally at board creation — every authorization check, owner included, is one uniform membership lookup rather than a special-cased owner branch.
-
-```
-User ──< BoardMember >── Board ──< Column ──< Task
-                            (owner is also a BoardMember row, role=OWNER)
-```
-
-### Ordering strategy
-
-Task and column positions are **floats with midpoint insertion**, not full re-sequencing and not integer gaps. Dropping a task between two existing tasks writes exactly one row — the moved task's `position`, set to the midpoint of its new neighbors — instead of rewriting every sibling on every drag. This is how Trello/Jira-style boards work in production.
-
-The one real failure mode of this approach — float precision exhaustion after many repeated inserts at the exact same slot — is bounded: if two neighbors' positions are closer than `1e-7`, the column is **renormalized** (rewritten to fresh, evenly-spaced positions) inside the same transaction before computing the new position. See `backend/src/common/ordering/position.util.ts` and its unit tests, which explicitly force this path.
-
-**Concurrency.** Moving a task locks its source and destination columns (`SELECT ... FOR UPDATE`, via raw SQL since Prisma has no query-builder support for row locks — isolated in `ColumnLockRepository`) inside a transaction, with both column ids locked in **sorted order** to prevent deadlocks between two concurrent moves touching the same column pair in opposite directions.
-
-**API and edge cases** (`PATCH /boards/:boardId/tasks/:taskId/move`, body `{ destinationColumnId, targetIndex }`):
-- The source column/board is **re-derived from the task itself** — never trusted from the client. The destination column is independently resolved and checked against `:boardId`. A legitimate editor on one board can't move a task into another board's column even by guessing/tampering with an id.
-- `targetIndex` out of range is **clamped** into `[0, columnLength]`, not rejected — negative values clamp to the start, overflow clamps to the end.
-- A malformed (non-integer) `targetIndex` or a `destinationColumnId` that doesn't exist/doesn't belong to the board is rejected (`400`/`404`).
-- Dropping a task back at its current position is detected as a no-op and skips the write entirely.
-
-### Authorization model
+<details>
+<summary><b>Authorization matrix</b></summary>
 
 | Operation | VIEWER | EDITOR | OWNER |
-|---|:---:|:---:|:---:|
-| Read board / columns / tasks / members | ✓ | ✓ | ✓ |
-| Update board title/description | | ✓ | ✓ |
+| :--- | :---: | :---: | :---: |
+| Read board, columns, tasks and members | ✓ | ✓ | ✓ |
+| Update board title and description | | ✓ | ✓ |
 | Delete board | | | ✓ |
-| Create/update/delete columns | | ✓ | ✓ |
-| Create/update/delete/move tasks | | ✓ | ✓ |
-| Add/change-role/remove members | | | ✓ |
+| Create, update and delete columns | | ✓ | ✓ |
+| Create, update, delete and move tasks | | ✓ | ✓ |
+| Add, change role and remove members | | | ✓ |
 
-Only an OWNER manages membership — the brief doesn't specify who can share a board, and restricting it to the owner is the simpler, more defensible default.
+A non-member receives `404` rather than `403` for a board they cannot see, so responses cannot be used to probe which board ids exist.
 
-Enforcement is layered:
-1. **`JwtAuthGuard`** (global) authenticates every request except `@Public()` routes (register/login).
-2. **`BoardMembershipGuard`** resolves `:boardId` from the route, confirms the caller is a member, and — only on routes annotated `@RequireRole(...)` — checks their role meets the minimum. Routes without that decorator require membership only, which is how reads stay open to VIEWER while mutations gate on EDITOR/OWNER. A non-member gets `404` rather than `403` on a board they can't see, so they can't use the response to probe which board ids exist.
-3. **Service-level ownership checks** close the gap a route guard can't: a guard only ever sees `:boardId` from the URL, never a task/column id from the body. Every service that receives a task or column id independently verifies it belongs to the board in the URL before touching it (`getColumnInBoardOrThrow`, `getTaskInBoardOrThrow`) — this is what stops a valid editor on Board A from mutating a resource that actually belongs to Board B.
+</details>
 
-A board is also guaranteed to always keep at least one OWNER — demoting or removing the last owner is rejected.
+<details>
+<summary><b>API overview</b></summary>
 
----
+All routes except `/health`, `/auth/register` and `/auth/login` require `Authorization: Bearer <token>`.
 
-## Testing
-
-```
-cd backend
-npm test          # unit tests (ordering algorithm)
-npm run test:e2e  # integration tests (auth, authorization matrix, ordering, IDOR)
-```
-
-`npm run test:e2e` runs against a separate database (`backend/.env.test`, database name `kanban_test`) so it never touches your development data. Coverage includes:
-
-- **Authorization**: VIEWER can read but not mutate; EDITOR can mutate content but not manage membership; OWNER can do everything; non-members are rejected; a task/column belonging to one board cannot be read, mutated, or moved into via another board's routes.
-- **Ordering**: same-column reorder, cross-column move to the start/middle/end, moving into an empty column, moving to the current position (no-op), out-of-range index clamping, malformed input rejection, and a forced renormalization pass with an assertion that the resulting positions are still strictly increasing and distinct.
-
-## API overview
-
-All routes except `/health`, `/auth/register`, `/auth/login` require `Authorization: Bearer <token>`. Full interactive docs at `/docs` (Swagger) once the backend is running.
-
-```
+```text
 POST   /auth/register
 POST   /auth/login
-
-GET    /boards
-POST   /boards
-GET    /boards/:boardId
-PATCH  /boards/:boardId
-DELETE /boards/:boardId
-GET    /boards/:boardId/members
-POST   /boards/:boardId/members
-PATCH  /boards/:boardId/members/:memberId
-DELETE /boards/:boardId/members/:memberId
-
-GET    /boards/:boardId/columns
-POST   /boards/:boardId/columns
-PATCH  /boards/:boardId/columns/:columnId
-DELETE /boards/:boardId/columns/:columnId
-
-GET    /boards/:boardId/tasks
-POST   /boards/:boardId/tasks
-PATCH  /boards/:boardId/tasks/:taskId
-DELETE /boards/:boardId/tasks/:taskId
+GET    /boards                      POST   /boards
+GET    /boards/:boardId             PATCH  /boards/:boardId      DELETE /boards/:boardId
+GET    /boards/:boardId/members     POST   /boards/:boardId/members
+PATCH  /boards/:boardId/members/:memberId    DELETE /boards/:boardId/members/:memberId
+GET    /boards/:boardId/columns     POST   /boards/:boardId/columns
+PATCH  /boards/:boardId/columns/:columnId    DELETE /boards/:boardId/columns/:columnId
+GET    /boards/:boardId/tasks       POST   /boards/:boardId/tasks
+PATCH  /boards/:boardId/tasks/:taskId        DELETE /boards/:boardId/tasks/:taskId
 PATCH  /boards/:boardId/tasks/:taskId/move
 ```
 
----
+</details>
 
-## Deployment
+<img src="assets/divider.svg" alt="" width="100%">
 
-**Live:**
-- Frontend: https://mini-kanban-board-frontend.vercel.app
-- Backend API: https://mini-kanban-board-backend.vercel.app (health check at `/health`, Swagger at `/docs`)
-- Database: Neon Postgres
+## ◈ Tech Stack
 
-Everything above works fully containerized (`docker compose up --build`) and needs no code changes to deploy — only environment variables.
+| Layer | Technologies | Purpose |
+| :--- | :--- | :--- |
+| Frontend | Next.js 14 App Router, React, TypeScript, Tailwind CSS | Auth pages, boards list and Kanban view |
+| Interaction | `@dnd-kit`, TanStack React Query | Drag and drop and server state |
+| Backend | NestJS, TypeScript, class-validator DTOs | REST API with guards and Swagger |
+| Database | PostgreSQL, Prisma | Relational model with migrations |
+| Testing | Jest, Supertest | Unit and end-to-end suites on a separate test database |
+| Delivery | Docker Compose, Vercel, Neon Postgres | Local stack and live deployment |
 
-- **Database**: any managed Postgres works (Neon, Supabase, RDS, Render Postgres, ...). If it's a pooled connection (e.g. Neon's pgbouncer endpoint), set `DATABASE_URL` to the pooled connection string and `DIRECT_URL` to the unpooled one — Prisma uses `DIRECT_URL` only for running migrations.
-- **Backend**: the `Dockerfile` in `backend/` works as-is on any container platform that builds from a Dockerfile (Render, Fly.io, Railway, ...). It also ships a Vercel-serverless entrypoint (`backend/api/index.ts` + `backend/vercel.json`) if you'd rather deploy it as serverless functions — `vercel deploy` from `backend/` picks it up with no further configuration.
-- **Frontend**: standard Next.js app — deploys to Vercel with zero config (`vercel deploy` from `frontend/`, with `NEXT_PUBLIC_API_URL` set to the deployed backend's URL at build time), or via the included Dockerfile anywhere else.
+<img src="assets/divider.svg" alt="" width="100%">
 
-Set `CORS_ORIGIN` on the backend to the deployed frontend's origin once both are live.
+## ◈ Getting Started
 
-## Known limitations / deliberate scope decisions
+**Prerequisites:** Docker, or Node.js 20 or newer with PostgreSQL 14 or newer.
 
-- JWT access tokens only (7-day expiry), no refresh-token rotation — reasonable for this scope, would add rotation + revocation storage for production use.
-- Column reordering (drag columns themselves) isn't implemented — only task movement is required by the brief; tasks are the graded ordering surface.
-- No real-time sync between simultaneous viewers of the same board (no WebSockets) — each client reflects its own actions immediately and reconciles with the server on every mutation, but won't see another user's change until it refetches.
+Quick start with Docker:
+
+```bash
+git clone https://github.com/Saji-d/mini-kanban-board.git
+cd mini-kanban-board
+cp .env.example .env
+docker compose up --build
+# frontend http://localhost:3000, API http://localhost:3001, Swagger /docs
+```
+
+The backend container runs `prisma migrate deploy` on startup, so the schema is created for you.
+
+<details>
+<summary><b>Manual setup without Docker</b></summary>
+
+```bash
+# backend
+cd backend
+cp .env.example .env
+npm install
+npx prisma migrate deploy
+npm run start:dev          # http://localhost:3001
+
+# frontend (second terminal)
+cd frontend
+cp .env.example .env.local
+npm install
+npm run dev                # http://localhost:3000
+```
+
+Backend variable names: `DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `PORT`, `CORS_ORIGIN`. Frontend: `NEXT_PUBLIC_API_URL`.
+
+</details>
+
+Run the tests from `backend/`:
+
+```bash
+npm test             # unit tests for the ordering utility
+npm run test:e2e     # auth, authorization matrix, ordering (uses the kanban_test database)
+```
+
+<img src="assets/divider.svg" alt="" width="100%">
+
+## ◈ Project Structure
+
+<details>
+<summary><b>Show the tree</b></summary>
+
+```text
+mini-kanban-board/
+├── backend/
+│   ├── prisma/            # schema and migrations
+│   ├── src/
+│   │   ├── auth/  boards/  columns/  tasks/  users/
+│   │   └── common/        # guards, decorators, ordering/position.util
+│   └── test/              # e2e suites
+├── frontend/
+│   └── src/
+│       ├── app/           # (auth) and (dashboard) route groups
+│       ├── features/      # board-detail, boards
+│       └── components/ui/
+└── docker-compose.yml
+```
+
+</details>
+
+<img src="assets/divider.svg" alt="" width="100%">
+
+## ◈ Roadmap
+
+- [x] Role-based sharing with layered authorization
+- [x] Concurrency-safe task moves with midpoint ordering
+- [ ] Drag-to-reorder for columns (only tasks can be moved today)
+- [ ] Refresh-token rotation and revocation (access tokens only, 7-day expiry)
+- [ ] Real-time sync between viewers of the same board
+
+<img src="assets/divider.svg" alt="" width="100%">
+
+## ◈ Author
+
+**Sajidur Rahman Sajid**, Full-Stack Developer and AI engineer from Dhaka.
+
+[Portfolio](https://www.sajidur.me) · [LinkedIn](https://www.linkedin.com/in/sajidur-rahman-sajid/) · [GitHub](https://github.com/Saji-d) · [Email](mailto:sajidsajidurrahman99@gmail.com)
+
+<div align="center"><sub>Built for a technical assessment and deployed end to end.</sub></div>
