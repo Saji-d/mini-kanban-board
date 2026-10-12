@@ -21,8 +21,10 @@
   </p>
 
   <p>
-    <a href="#-overview">Overview</a> · <a href="#-try-it-live">Try it live</a> · <a href="#-highlights">Highlights</a> · <a href="#-preview">Preview</a> · <a href="#-architecture">Architecture</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-getting-started">Getting Started</a> · <a href="#-roadmap">Roadmap</a>
+    <a href="#-overview">Overview</a> · <a href="#-try-it-live">Try it live</a> · <a href="#-highlights">Highlights</a> · <a href="#-preview">Preview</a> · <a href="#-architecture">Architecture</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-getting-started">Getting Started</a>
   </p>
+
+  <p><sub>Built as a technical assessment. Independent implementation, not affiliated with or endorsed by any company.</sub></p>
 </div>
 
 <img src="assets/divider.svg" alt="" width="100%">
@@ -178,7 +180,7 @@ PATCH  /boards/:boardId/tasks/:taskId/move
 
 ## ◈ Getting Started
 
-**Prerequisites:** Docker, or Node.js 20 or newer with PostgreSQL 14 or newer.
+**Prerequisites:** Docker, or else Node.js 20 or newer with PostgreSQL 14 or newer.
 
 Quick start with Docker:
 
@@ -225,8 +227,10 @@ npm run test:e2e     # auth, authorization matrix, ordering (uses the kanban_tes
 
 ## ◈ Project Structure
 
+Two apps in one repo: `backend/` is the NestJS API with Prisma schema and e2e tests while `frontend/` is the Next.js app.
+
 <details>
-<summary><b>Show the tree</b></summary>
+<summary><b>Open the folder map</b></summary>
 
 ```text
 mini-kanban-board/
@@ -248,20 +252,16 @@ mini-kanban-board/
 
 <img src="assets/divider.svg" alt="" width="100%">
 
-## ◈ Roadmap
-
-- [x] Role-based sharing with layered authorization
-- [x] Concurrency-safe task moves with midpoint ordering
-- [ ] Drag-to-reorder for columns (only tasks can be moved today)
-- [ ] Refresh-token rotation and revocation (access tokens only, 7-day expiry)
-- [ ] Real-time sync between viewers of the same board
-
-<img src="assets/divider.svg" alt="" width="100%">
-
 ## ◈ Author
 
-**Sajidur Rahman Sajid**, Full-Stack Developer and AI engineer from Dhaka.
+**Sajidur Rahman Sajid**: Full-Stack Developer and AI engineer from Dhaka.<br>
+BSc in CSE at American International University-Bangladesh (AIUB).
 
-[Portfolio](https://www.sajidur.me) · [LinkedIn](https://www.linkedin.com/in/sajidur-rahman-sajid/) · [GitHub](https://github.com/Saji-d) · [Email](mailto:sajidsajidurrahman99@gmail.com)
+<p>
+  <a href="https://www.sajidur.me"><img src="https://img.shields.io/badge/Portfolio-0B0E1A?style=flat-square&logo=googlechrome&logoColor=9B8CFA" alt="Portfolio"></a>
+  <a href="https://www.linkedin.com/in/sajidur-rahman-sajid/"><img src="https://img.shields.io/badge/LinkedIn-0B0E1A?style=flat-square&logo=linkedin&logoColor=8B7CF6" alt="LinkedIn"></a>
+  <a href="https://github.com/Saji-d"><img src="https://img.shields.io/badge/GitHub-0B0E1A?style=flat-square&logo=github&logoColor=EEF0FA" alt="GitHub"></a>
+  <a href="mailto:sajidsajidurrahman99@gmail.com"><img src="https://img.shields.io/badge/Email-0B0E1A?style=flat-square&logo=gmail&logoColor=9B8CFA" alt="Email"></a>
+</p>
 
 <div align="center"><sub>Built for a technical assessment and deployed end to end.</sub></div>
